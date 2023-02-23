@@ -20,13 +20,9 @@ public class Pessoa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank
     private String nome;
-    @NotBlank
     private LocalDate dtNascimento;
     @OneToMany
     private Endereco endereco;
-
-
 
 }

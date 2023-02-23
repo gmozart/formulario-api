@@ -24,6 +24,8 @@ public class Pessoa {
     private String nome;
     @NotBlank
     private LocalDate dtNascimento;
+    @OneToMany
+    private Endereco endereco;
 
 
 

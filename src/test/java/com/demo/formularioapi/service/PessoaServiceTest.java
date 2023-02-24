@@ -12,12 +12,15 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -79,7 +82,10 @@ class PessoaServiceTest {
     }
 
     @Test
-    void testFindAll() {
+    void whenPageFindAllTest() {
+        when(pessoaRepository.findAll()).thenReturn(Collections.singletonList(Pessoa.builder().build()));
+        Page<PessoaDTO> response = pessoaService.findAll(1, 1);
+        assertNotNull(response);
     }
 
     @Test

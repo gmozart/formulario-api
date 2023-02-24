@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -58,7 +59,12 @@ class PessoaServiceTest {
     }
 
     @Test
-    void findById() {
+    void whenFindByIdTest() {
+        when(pessoaRepository.findById(anyLong())).thenReturn(Optional.of(PessoaDTO.of(pessoaDTO)));
+        Optional<PessoaDTO> response = pessoaService.findById(ID);
+        assertNotNull(response);
+        assertEquals(Optional.class, response.getClass());
+        assertEquals(ID, response.get().getId());
     }
 
     @Test

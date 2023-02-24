@@ -15,6 +15,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -68,7 +70,12 @@ class PessoaServiceTest {
     }
 
     @Test
-    void findAll() {
+    void whenFindAllTest() {
+        when(pessoaRepository.findAll()).thenReturn(Collections.singletonList(Pessoa.builder().build()));
+        Optional<List<PessoaDTO>> response = pessoaService.findAll();
+        assertNotNull(response);
+        assertEquals(1,response.get().size());
+        assertEquals(PessoaDTO.class, response.get().get(0).getClass());
     }
 
     @Test

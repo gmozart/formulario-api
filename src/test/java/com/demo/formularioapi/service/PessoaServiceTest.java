@@ -89,11 +89,17 @@ class PessoaServiceTest {
     }
 
     @Test
-    void update() {
+    void whenUpdateTest() {
+        when(pessoaRepository.save(any())).thenReturn(PessoaDTO.of(pessoaDTO));
+        Optional<PessoaDTO> response = pessoaService.update(ID,pessoaDTO);
+        assertNotNull(response);
+        assertEquals(Optional.class, response.getClass());
+        assertEquals(ID, response.get().getId());
+        assertEquals(NOME, response.get().getNome());
     }
 
     @Test
-    void delete() {
+    void whenDeleteTest() {
     }
 
     private void starterPessoa(){

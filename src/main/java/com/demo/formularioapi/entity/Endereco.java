@@ -21,13 +21,9 @@ public class Endereco {
 
     @Id
     private Long id;
-    @NotBlank
     private TipoEndereco tipoEndereco;
-    @NotBlank
     private String logradouro;
-    @NotBlank
     private String cep;
-    @NotBlank
     private String cidade;
 
 

@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Builder
 public class PessoaDTO {
 
-    @NotBlank
+
     private Long id;
     @NotBlank
     private String nome;

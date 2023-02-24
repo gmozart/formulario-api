@@ -100,6 +100,12 @@ class PessoaServiceTest {
 
     @Test
     void whenDeleteTest() {
+        when(pessoaRepository.findById(anyLong())).thenReturn(Optional.of(PessoaDTO.of(pessoaDTO)));
+        Optional<PessoaDTO> response = pessoaService.findById(ID);
+        assertNotNull(response);
+        doNothing().when(pessoaRepository).deleteById(anyLong());
+        pessoaService.delete(ID);
+        verify(pessoaRepository, times(1)).deleteById(anyLong());
     }
 
     private void starterPessoa(){

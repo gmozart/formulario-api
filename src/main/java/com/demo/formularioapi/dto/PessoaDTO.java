@@ -7,6 +7,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,7 +23,7 @@ public class PessoaDTO {
     @NotBlank
     private LocalDate dtNascimento;
     @NotBlank
-    private Endereco endereco;
+    private List<Endereco> endereco = new ArrayList<>();
 
     public static PessoaDTO of(Pessoa pessoa){
      return PessoaDTO.builder()

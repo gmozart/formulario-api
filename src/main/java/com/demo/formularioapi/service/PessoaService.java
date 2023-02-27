@@ -50,9 +50,11 @@ public class PessoaService {
     }
     public Optional<PessoaDTO> update(Long id, PessoaDTO pessoaDTO){
         pessoaDTO.setId(id);
+        findById(id);
         return Optional.of(PessoaDTO.of(pessoaRepository.save(PessoaDTO.of(pessoaDTO))));
     }
     public void delete(Long id){
+        findById(id);
         pessoaRepository.deleteById(id);
     }
 }

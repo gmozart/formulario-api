@@ -40,7 +40,6 @@ public class EnderecoService {
             return new ResponseEntity<String>("Endereço não localizado",  HttpStatus.BAD_REQUEST);
         }
     }
-
     public Optional<List<EnderecoDTO>> findAll(){
         return Optional.of(EnderecoDTO.of(enderecoRepository.findAll()));
     }
@@ -49,10 +48,11 @@ public class EnderecoService {
     }
     public Optional<EnderecoDTO> update(Long id, EnderecoDTO enderecoDTO){
         enderecoDTO.setId(id);
+        findById(id);
         return Optional.of(EnderecoDTO.of(enderecoRepository.save(EnderecoDTO.of(enderecoDTO))));
     }
     public void delete(Long id){
+        findById(id);
         enderecoRepository.deleteById(id);
     }
-
 }

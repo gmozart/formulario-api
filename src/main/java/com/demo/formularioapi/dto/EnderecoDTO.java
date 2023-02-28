@@ -1,9 +1,13 @@
 package com.demo.formularioapi.dto;
 
 import com.demo.formularioapi.entity.Endereco;
+import com.demo.formularioapi.entity.Pessoa;
 import com.demo.formularioapi.enums.TipoEndereco;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import java.util.List;
@@ -12,21 +16,22 @@ import java.util.stream.Collectors;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class EnderecoDTO {
 
     private Long id;
-    @NotBlank
+    @JsonIgnore
+    private Pessoa pessoa;
     private TipoEndereco tipoEndereco;
-    @NotBlank
     private String logradouro;
-    @NotBlank
-    private String cep;
-    @NotBlank
+    private Integer cep;
     private String cidade;
 
     public static EnderecoDTO of(Endereco endereco){
         return EnderecoDTO.builder()
                 .id(endereco.getId())
+                .pessoa(endereco.getPessoa())
                 .tipoEndereco(endereco.getTipoEndereco())
                 .logradouro(endereco.getLogradouro())
                 .cep(endereco.getCep())
@@ -36,6 +41,7 @@ public class EnderecoDTO {
     public static Endereco of(EnderecoDTO enderecoDTO){
         return Endereco.builder()
                 .id(enderecoDTO.getId())
+                .pessoa(enderecoDTO.getPessoa())
                 .tipoEndereco(enderecoDTO.getTipoEndereco())
                 .logradouro(enderecoDTO.getLogradouro())
                 .cep(enderecoDTO.getCep())

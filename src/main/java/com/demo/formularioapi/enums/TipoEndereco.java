@@ -5,4 +5,5 @@ public enum TipoEndereco {
     PRINCIPAL,
     SECUNDARIO,
     TRABALHO;
+
 }

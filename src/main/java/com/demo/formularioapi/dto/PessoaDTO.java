@@ -4,10 +4,10 @@ import com.demo.formularioapi.entity.Endereco;
 import com.demo.formularioapi.entity.Pessoa;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -16,21 +16,17 @@ import java.util.stream.Collectors;
 @Builder
 public class PessoaDTO {
 
-
     private Long id;
-    @NotBlank
     private String nome;
-    @NotBlank
     private LocalDate dtNascimento;
-    @NotBlank
-    private List<Endereco> endereco = new ArrayList<>();
+    private List<Endereco> enderecos;
 
     public static PessoaDTO of(Pessoa pessoa){
      return PessoaDTO.builder()
              .id(pessoa.getId())
              .nome(pessoa.getNome())
              .dtNascimento(pessoa.getDtNascimento())
-             .endereco(pessoa.getEndereco())
+             .enderecos(pessoa.getEnderecos())
              .build();
     }
     public static Pessoa of(PessoaDTO pessoaDTO){
@@ -38,7 +34,7 @@ public class PessoaDTO {
                 .id(pessoaDTO.getId())
                 .nome(pessoaDTO.getNome())
                 .dtNascimento(pessoaDTO.getDtNascimento())
-                .endereco(pessoaDTO.getEndereco())
+                .enderecos(pessoaDTO.getEnderecos())
                 .build();
     }
     public static Optional<PessoaDTO> of(Optional<Pessoa> pessoa){

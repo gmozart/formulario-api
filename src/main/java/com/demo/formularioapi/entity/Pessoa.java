@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +22,14 @@ public class Pessoa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_pessoa")
     private Long id;
     private String nome;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dtNascimento;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name="id_pessoa", foreignKey = @ForeignKey(name = "fk_endereco_pessoa"))
     @JsonManagedReference
-    private List<Endereco> endereco = new ArrayList<>();
+    private List<Endereco> enderecos;
 
 }

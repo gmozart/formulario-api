@@ -1,6 +1,12 @@
 package com.demo.formularioapi.service;
 
+import com.demo.formularioapi.dto.EnderecoDTO;
 import com.demo.formularioapi.dto.PessoaDTO;
+import com.demo.formularioapi.entity.Endereco;
+import com.demo.formularioapi.entity.Pessoa;
+import com.demo.formularioapi.enums.TipoEndereco;
+import com.demo.formularioapi.exception.FmlNotFoundException;
+import com.demo.formularioapi.repository.EnderecoRepository;
 import com.demo.formularioapi.repository.PessoaRepository;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.exception.GenericJDBCException;
@@ -22,10 +28,16 @@ import java.util.Optional;
 public class PessoaService {
 
     private final PessoaRepository pessoaRepository;
+    private final EnderecoRepository enderecoRepository;
 
     public ResponseEntity<?> save(PessoaDTO pessoaDTO){
         try{
-            return new ResponseEntity<PessoaDTO>(PessoaDTO.of(this.pessoaRepository.save(PessoaDTO.of(pessoaDTO))), HttpStatus.CREATED);
+           var pessoaSalva = pessoaRepository.save(PessoaDTO.of(pessoaDTO));
+            pessoaSalva.getEnderecos().forEach( endereco -> {
+                endereco.setPessoa(pessoaSalva);
+                enderecoRepository.save(endereco);
+            });
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (JpaSystemException | GenericJDBCException | DataIntegrityViolationException e){
             e.printStackTrace();
             return new ResponseEntity<String>(
@@ -33,15 +45,21 @@ public class PessoaService {
         }
     }
 
-    public ResponseEntity<?> findById(Long id){
-            Optional<PessoaDTO> record = PessoaDTO.of(this.pessoaRepository.findById(id));
-            if (record.orElseGet(()-> null) != null){
-                return new ResponseEntity<PessoaDTO>(record.get(), HttpStatus.OK);
-            }else {
-                return new ResponseEntity<String>("Pessoa não localziada!", HttpStatus.BAD_REQUEST);
-            }
+    public ResponseEntity<?> saveNewEndereco(Long id, EnderecoDTO enderecoDTO){
+        Pessoa pessoa = PessoaDTO.of(findById(id));
+        enderecoDTO.setPessoa(pessoa);
+
+        if(enderecoDTO.getTipoEndereco().equals(TipoEndereco.PRINCIPAL)){
+            Optional<Endereco> enderecoPrincipal = pessoa.getEnderecos().stream().filter(v -> v.getTipoEndereco().equals(TipoEndereco.PRINCIPAL)).findAny();
+            enderecoPrincipal.get().setTipoEndereco(TipoEndereco.SECUNDARIO);
+            enderecoRepository.save(enderecoPrincipal.get());
+        }
+        return ResponseEntity.ok(enderecoRepository.save(EnderecoDTO.of(enderecoDTO)));
     }
 
+    public PessoaDTO findById(Long id){
+        return PessoaDTO.of(pessoaRepository.findById(id)).orElseThrow(FmlNotFoundException::new);
+    }
     public Optional<List<PessoaDTO>> findAll(){
         return Optional.of(PessoaDTO.of(pessoaRepository.findAll()));
     }

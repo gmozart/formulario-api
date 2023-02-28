@@ -14,11 +14,10 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.HttpMediaTypeException;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -30,18 +29,16 @@ public class PessoaService {
     private final PessoaRepository pessoaRepository;
     private final EnderecoRepository enderecoRepository;
 
-    public ResponseEntity<?> save(PessoaDTO pessoaDTO){
+    public void save(PessoaDTO pessoaDTO) throws Exception {
         try{
            var pessoaSalva = pessoaRepository.save(PessoaDTO.of(pessoaDTO));
             pessoaSalva.getEnderecos().forEach( endereco -> {
                 endereco.setPessoa(pessoaSalva);
                 enderecoRepository.save(endereco);
             });
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        } catch (JpaSystemException | GenericJDBCException | DataIntegrityViolationException e){
+        } catch (JpaSystemException | GenericJDBCException | DataIntegrityViolationException e) {
             e.printStackTrace();
-            return new ResponseEntity<String>(
-                "Dados inválidos! Verifique se os dados informados já foram cadastrados", HttpStatus.BAD_REQUEST);
+            throw new Exception("Dados inválidos! Verifique se os dados informados já foram cadastrados");
         }
     }
 

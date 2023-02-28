@@ -29,10 +29,10 @@ public class Endereco {
     private Pessoa pessoa;
     @Enumerated(EnumType.STRING)
     private TipoEndereco tipoEndereco;
-    @NotBlank
+
     private String logradouro;
-    @NotBlank
+
     private Integer cep;
-    @NotBlank
+
     private String cidade;
 }

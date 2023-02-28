@@ -2,10 +2,10 @@ package com.demo.formularioapi.dto;
 
 import com.demo.formularioapi.entity.Endereco;
 import com.demo.formularioapi.entity.Pessoa;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @Builder
 public class PessoaDTO {
 
+    @JsonIgnore
     private Long id;
     private String nome;
     private LocalDate dtNascimento;

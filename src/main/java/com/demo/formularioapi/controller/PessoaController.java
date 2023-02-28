@@ -4,8 +4,10 @@ import com.demo.formularioapi.dto.EnderecoDTO;
 import com.demo.formularioapi.dto.PessoaDTO;
 import com.demo.formularioapi.exception.FmlNotFoundException;
 import com.demo.formularioapi.service.PessoaService;
+import com.demo.formularioapi.util.PessoaResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,13 +24,14 @@ public class PessoaController {
     private final PessoaService pessoaService;
 
     @PostMapping
-    public ResponseEntity<?> save(@Valid @RequestBody PessoaDTO pessoaDTO){
-        return pessoaService.save(pessoaDTO);
+    public ResponseEntity<PessoaResponse> save(@Valid @RequestBody PessoaDTO pessoaDTO) throws Exception {
+        pessoaService.save(pessoaDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("/{id}/endereco")
     public ResponseEntity<?> saveNewEndereco (@PathVariable Long id, @Valid @RequestBody EnderecoDTO enderecoDTO){
-        return pessoaService.saveNewEndereco(id, enderecoDTO);
+        return pessoaService.saveNewEndereco(id, enderecoDTO).status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/{id}")

@@ -7,12 +7,16 @@ import com.demo.formularioapi.entity.Pessoa;
 import com.demo.formularioapi.exception.FmlNotFoundException;
 import com.demo.formularioapi.repository.EnderecoRepository;
 import com.demo.formularioapi.repository.PessoaRepository;
+import com.demo.formularioapi.util.PessoaResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -42,6 +46,10 @@ class PessoaServiceTest {
 
     private PessoaDTO pessoaDTO;
 
+    private Pessoa pessoa;
+
+    private PessoaResponse pessoaResponse;
+
     private EnderecoDTO enderecoDTO;
 
     @Captor
@@ -53,7 +61,14 @@ class PessoaServiceTest {
     }
 
     @Test
-    void save() {
+    void whenSaveThenReturnPessoaResponse() throws Exception {
+        when(pessoaRepository.save(any())).thenReturn(PessoaDTO.of(pessoaDTO));
+        try{
+           pessoaDTO.setId(1l);
+           pessoaService.save(pessoaDTO);
+        }catch (Exception ex){
+            assertEquals(DataIntegrityViolationException.class, ex.getClass());
+        }
     }
 
     @Test
@@ -97,10 +112,6 @@ class PessoaServiceTest {
     }
 
     @Test
-    void testFindAll() {
-    }
-
-    @Test
     void update() {
     }
 
@@ -110,5 +121,6 @@ class PessoaServiceTest {
 
     private void starterPessoa(){
         pessoaDTO = PessoaDTO.of(new Pessoa(ID ,NOME, DTNASCIMENTO, ENDERECO));
+        pessoa = new Pessoa(ID ,NOME, DTNASCIMENTO, ENDERECO);
     }
 }

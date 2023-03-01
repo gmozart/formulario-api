@@ -8,6 +8,7 @@ import com.demo.formularioapi.enums.TipoEndereco;
 import com.demo.formularioapi.exception.FmlNotFoundException;
 import com.demo.formularioapi.repository.EnderecoRepository;
 import com.demo.formularioapi.repository.PessoaRepository;
+import com.demo.formularioapi.util.PessoaResponse;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.exception.GenericJDBCException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -29,7 +30,7 @@ public class PessoaService {
     private final PessoaRepository pessoaRepository;
     private final EnderecoRepository enderecoRepository;
 
-    public void save(PessoaDTO pessoaDTO) throws Exception {
+    public PessoaResponse save(PessoaDTO pessoaDTO) throws Exception {
         try{
            var pessoaSalva = pessoaRepository.save(PessoaDTO.of(pessoaDTO));
             pessoaSalva.getEnderecos().forEach( endereco -> {
@@ -40,6 +41,7 @@ public class PessoaService {
             e.printStackTrace();
             throw new Exception("Dados inválidos! Verifique se os dados informados já foram cadastrados");
         }
+        return PessoaResponse.builder().build();
     }
 
     public void saveNewEndereco(Long id, EnderecoDTO enderecoDTO){

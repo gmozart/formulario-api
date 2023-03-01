@@ -35,8 +35,8 @@ public class PessoaController {
     }
 
     @GetMapping("/{id}")
-    public PessoaDTO findByid(@PathVariable  Long id){
-        return pessoaService.findById(id);
+    public ResponseEntity<PessoaDTO> findByid(@PathVariable  Long id){
+        return ResponseEntity.ok(pessoaService.findById(id));
     }
     @GetMapping("/all")
     public ResponseEntity<List<PessoaDTO>> findAll(){

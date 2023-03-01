@@ -52,7 +52,6 @@ public class PessoaService {
         }
             enderecoRepository.save(EnderecoDTO.of(enderecoDTO));
     }
-
     public PessoaDTO findById(Long id){
         return PessoaDTO.of(pessoaRepository.findById(id)).orElseThrow(FmlNotFoundException::new);
     }

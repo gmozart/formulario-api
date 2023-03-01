@@ -72,7 +72,7 @@ Comandos a serem executados:
  - [Swagger](https://www.baeldung.com/spring-rest-openapi-documentation)
  - [Mockito](https://www.baeldung.com/mockito-annotations)
  - [Mockito JUnit5](https://www.baeldung.com/mockito-junit-5-extension)
-- [Readme.so](https://readme.so/pt)
+ - [Readme.so](https://readme.so/pt)
 
 
 ## 🚀 Sobre mim

@@ -42,16 +42,15 @@ public class PessoaService {
         }
     }
 
-    public ResponseEntity<?> saveNewEndereco(Long id, EnderecoDTO enderecoDTO){
+    public void saveNewEndereco(Long id, EnderecoDTO enderecoDTO){
         Pessoa pessoa = PessoaDTO.of(findById(id));
         enderecoDTO.setPessoa(pessoa);
-
         if(enderecoDTO.getTipoEndereco().equals(TipoEndereco.PRINCIPAL)){
             Optional<Endereco> enderecoPrincipal = pessoa.getEnderecos().stream().filter(v -> v.getTipoEndereco().equals(TipoEndereco.PRINCIPAL)).findAny();
             enderecoPrincipal.get().setTipoEndereco(TipoEndereco.SECUNDARIO);
             enderecoRepository.save(enderecoPrincipal.get());
         }
-        return ResponseEntity.ok(enderecoRepository.save(EnderecoDTO.of(enderecoDTO)));
+            enderecoRepository.save(EnderecoDTO.of(enderecoDTO));
     }
 
     public PessoaDTO findById(Long id){

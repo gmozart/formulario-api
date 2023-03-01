@@ -17,8 +17,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @ExtendWith(MockitoExtension.class)
 class PessoaServiceTest {
 
@@ -26,8 +24,7 @@ class PessoaServiceTest {
     private static final String NOME = "Walter fernando de sá";
     private static final LocalDate DTNASCIMENTO = LocalDate.of(2010, 3, 7);
     private static final List<Endereco> ENDERECO = new ArrayList<Endereco>();
-
-
+    
     @InjectMocks
     private PessoaService pessoaService;
 
@@ -45,6 +42,10 @@ class PessoaServiceTest {
 
     @Test
     void save() {
+    }
+
+    @Test
+    void saveNewEndereco() {
     }
 
     @Test
@@ -67,7 +68,8 @@ class PessoaServiceTest {
     void delete() {
     }
 
+
     private void starterPessoa(){
         pessoaDTO = PessoaDTO.of(new Pessoa(ID ,NOME, DTNASCIMENTO, ENDERECO));
-        }
+    }
 }

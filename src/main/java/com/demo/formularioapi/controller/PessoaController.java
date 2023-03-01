@@ -11,10 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -30,8 +29,9 @@ public class PessoaController {
     }
 
     @PostMapping("/{id}/endereco")
-    public ResponseEntity<?> saveNewEndereco (@PathVariable Long id, @Valid @RequestBody EnderecoDTO enderecoDTO){
-        return pessoaService.saveNewEndereco(id, enderecoDTO).status(HttpStatus.CREATED).build();
+    public ResponseEntity<PessoaResponse> saveNewEndereco(@PathVariable Long id, @Valid @RequestBody EnderecoDTO enderecoDTO){
+        pessoaService.saveNewEndereco(id, enderecoDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/{id}")

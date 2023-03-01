@@ -14,7 +14,6 @@ API para cadastro de pessoas e seus multiplos endereços, conforme foi pedido na
 - Spring-boot Starter-test 2.7.5
 - Springdoc-openapi-ui 1.6.14
 - H2 Database Engine 2.1.214
-- Flywaydb 8.5.13
 - Loombok 1.18.24
 
 Comandos a serem executados:

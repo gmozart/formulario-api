@@ -84,7 +84,16 @@ class PessoaServiceTest {
     }
 
     @Test
-    void findAll() {
+    void whenFindAllThenReturnAnListOfPessoas() {
+        when(pessoaRepository.findAll()).thenReturn(List.of(PessoaDTO.of(pessoaDTO)));
+        Optional<List<PessoaDTO>> response = pessoaService.findAll();
+        assertNotNull(response);
+        assertEquals(1, response.get().size());
+        assertEquals(PessoaDTO.class, response.get().get(0).getClass());
+        assertEquals(ID, response.get().get(0).getId());
+        assertEquals(NOME, response.get().get(0).getNome());
+        assertEquals(DTNASCIMENTO, response.get().get(0).getDtNascimento());
+        assertEquals(ENDERECO, response.get().get(0).getEnderecos());
     }
 
     @Test
